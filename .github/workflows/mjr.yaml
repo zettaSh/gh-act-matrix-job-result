@@ -1,0 +1,27 @@
+name: Matrix Job Output
+
+on: push
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [foo, bar]
+    steps:
+      - name: exec
+        run: |
+          version="${{ matrix.version }}"
+          if [ "$version" = "foo" ]; then
+            echo "foo, will fail"
+            exit 23
+          else
+            echo "will success"
+            exit 0
+          fi
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: [job1]
+    steps:
+      - run: echo '${{ needs.job1.result }}'
