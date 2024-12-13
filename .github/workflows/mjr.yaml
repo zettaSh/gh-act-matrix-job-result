@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [foo, bar]
+        version: [foo, bar, baz]
     steps:
       - name: exec
         run: |
@@ -15,6 +15,10 @@ jobs:
           if [ "$version" = "foo" ]; then
             echo "foo, will fail"
             exit 23
+          elif [ "$version" = "baz" ]; then
+            echo "baz, will sleep"
+            sleep 2m
+            exit 0
           else
             echo "will success"
             exit 0
